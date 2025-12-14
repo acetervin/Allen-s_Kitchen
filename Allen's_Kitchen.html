@@ -19,7 +19,7 @@
                         brandBlack: '#000000',
                         brandGray: '#121212',
                         brandLight: '#1f1f1f',
-                        brandGold: '#D4AF37', // Added for subtle highlights
+                        brandGold: '#D4AF37',
                     },
                     fontFamily: {
                         sans: ['Montserrat', 'sans-serif'],
@@ -34,23 +34,23 @@
         html { scroll-behavior: smooth; }
         body { background-color: #000000; color: #ffffff; }
         
-        /* Animations */
         .fade-in-up { animation: fadeInUp 1.2s ease-out; }
-        @keyframes fadeInUp { 
-            from { opacity: 0; transform: translateY(40px); } 
-            to { opacity: 1; transform: translateY(0); } 
-        }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Mobile Menu Animation - IMPROVED */
-        #mobile-menu { transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; }
+        /* Mobile Menu */
+        #mobile-menu { transition: opacity 0.3s, transform 0.3s; }
         .menu-hidden { opacity: 0; pointer-events: none; transform: scale(0.95); }
         .menu-visible { opacity: 1; pointer-events: auto; transform: scale(1); }
 
-        /* Modal Transitions */
+        /* Modal */
         .modal { transition: opacity 0.2s ease-in-out; pointer-events: none; opacity: 0; }
         .modal.active { pointer-events: auto; opacity: 1; }
         .modal-content { transform: scale(0.95); transition: transform 0.2s; }
         .modal.active .modal-content { transform: scale(1); }
+
+        /* Pop Animation */
+        @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+        .pop-anim { animation: pop 0.3s ease-out; }
     </style>
 </head>
 <body class="font-sans antialiased bg-black text-white selection:bg-white selection:text-black">
@@ -65,12 +65,16 @@
                 <div class="hidden md:flex space-x-8 items-center">
                     <a href="#experience" class="text-xs uppercase font-bold tracking-[0.2em] text-gray-400 hover:text-white transition">Experience</a>
                     <a href="#menu" class="text-xs uppercase font-bold tracking-[0.2em] text-gray-400 hover:text-white transition">Menu</a>
-                    <a href="#contact" class="px-6 py-2 bg-white text-black text-xs font-bold uppercase tracking-widest rounded hover:bg-gray-200 transition">
-                        Book Table
-                    </a>
+                    <button onclick="openCart()" class="px-6 py-2 bg-white text-black text-xs font-bold uppercase tracking-widest rounded hover:bg-gray-200 transition flex items-center gap-2">
+                        <i class="fas fa-shopping-basket"></i> Cart <span id="nav-cart-count" class="bg-black text-white px-2 rounded-full text-[10px] hidden">0</span>
+                    </button>
                 </div>
 
-                <div class="md:hidden flex items-center">
+                <div class="md:hidden flex items-center gap-4">
+                    <button onclick="openCart()" class="text-white relative">
+                        <i class="fas fa-shopping-basket text-2xl"></i>
+                        <span id="mobile-cart-count" class="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full hidden">0</span>
+                    </button>
                     <button id="mobile-menu-open" class="text-white p-2 focus:outline-none">
                         <i class="fas fa-bars text-2xl"></i>
                     </button>
@@ -83,36 +87,29 @@
         <button id="mobile-menu-close" class="absolute top-6 right-6 text-white w-12 h-12 border border-white rounded-full flex items-center justify-center hover:bg-white hover:text-black transition">
             <i class="fas fa-times text-xl"></i>
         </button>
-        
         <img src="image_5ecd63.png" alt="Allen's Kitchen" class="h-20 w-auto invert mb-4 opacity-80">
-        
         <a href="#experience" class="mobile-link text-3xl font-hand text-white hover:text-gray-300">Experience</a>
         <a href="#menu" class="mobile-link text-3xl font-hand text-white hover:text-gray-300">Our Menu</a>
         <a href="https://instagram.com/allens_kitchen_ke" target="_blank" class="mobile-link text-3xl font-hand text-white hover:text-gray-300 flex items-center gap-2">
             <i class="fab fa-instagram"></i> Instagram
         </a>
-        <a href="#contact" class="mobile-link text-lg bg-white text-black px-10 py-3 rounded font-bold uppercase tracking-widest">Book Now</a>
     </div>
 
     <header class="relative h-[85vh] flex items-center justify-center overflow-hidden">
         <div class="absolute inset-0 z-0">
-            <img src="https://images.pexels.com/photos/109275/pexels-photo-109275.jpeg?_gl=1*ipx14g*_ga*Mjc4NzYxNDQ5LjE3NTg0MDU2MTA.*_ga_8JE65Q40S6*czE3NjU3MzE4MzYkbzYkZzEkdDE3NjU3MzM1MDEkajMxJGwwJGgw" class="w-full h-full object-cover opacity-50">
+            <img src="https://images.pexels.com/photos/109275/pexels-photo-109275.jpeg" class="w-full h-full object-cover opacity-50">
             <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/80"></div>
         </div>
-
         <div class="relative z-10 text-center px-4 mt-10 fade-in-up">
             <div class="mb-6 inline-block border-b border-white pb-1">
                 <span class="text-sm md:text-base font-bold tracking-[0.3em] uppercase text-gray-300">Est. Nairobi</span>
             </div>
             <h1 class="text-6xl md:text-8xl font-hand mb-6 text-white drop-shadow-xl">Allen's Kitchen</h1>
             <p class="text-xl md:text-2xl font-light italic text-gray-300 mb-10">"You Again??"</p>
-            
             <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="#menu" class="px-10 py-4 bg-white text-black font-bold uppercase tracking-widest hover:bg-gray-200 transition duration-300 text-sm">
-                    View Menu
-                </a>
+                <a href="#menu" class="px-10 py-4 bg-white text-black font-bold uppercase tracking-widest hover:bg-gray-200 transition duration-300 text-sm">Order Now</a>
                 <a href="https://instagram.com/allens_kitchen_ke" target="_blank" class="flex items-center justify-center gap-3 px-10 py-4 border border-white text-white font-bold uppercase tracking-widest hover:bg-white hover:text-black transition duration-300 text-sm">
-                    <i class="fab fa-instagram text-lg"></i> View Gallery
+                    <i class="fab fa-instagram text-lg"></i> Gallery
                 </a>
             </div>
         </div>
@@ -121,7 +118,6 @@
     <section id="experience" class="py-20 bg-brandBlack border-b border-gray-900">
         <div class="max-w-7xl mx-auto px-4 text-center">
             <h2 class="text-3xl font-bold uppercase tracking-widest mb-16">The Experience</h2>
-            
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
                 <div class="group p-6 hover:bg-brandGray rounded-lg transition duration-500">
                     <div class="w-16 h-16 border border-white rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-white group-hover:text-black transition">
@@ -130,7 +126,6 @@
                     <h3 class="text-xl font-bold mb-3 uppercase">Fresh Inputs</h3>
                     <p class="text-gray-400 text-sm leading-relaxed">Sourced daily from local farmers.</p>
                 </div>
-
                 <div class="group p-6 hover:bg-brandGray rounded-lg transition duration-500">
                     <div class="w-16 h-16 border border-white rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-white group-hover:text-black transition">
                         <i class="fas fa-fire-alt text-2xl"></i>
@@ -138,7 +133,6 @@
                     <h3 class="text-xl font-bold mb-3 uppercase">Master Grillers</h3>
                     <p class="text-gray-400 text-sm leading-relaxed">Perfectly charred burgers and wraps prepared with our secret house sauces.</p>
                 </div>
-
                 <div class="group p-6 hover:bg-brandGray rounded-lg transition duration-500">
                     <div class="w-16 h-16 border border-white rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-white group-hover:text-black transition">
                         <i class="fas fa-shipping-fast text-2xl"></i>
@@ -159,79 +153,99 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             
-            <div onclick="openModal('Wrapped', '350', 'allens_kitchen_ke_1756213376_3707708988714436252_76863337166.webp', 'Tortilla wraps, juicy chicken dipped in our in-house sauce, lettuce and a dash of onions.')"
-                 class="group bg-brandGray rounded-xl overflow-hidden cursor-pointer hover:shadow-2xl hover:shadow-white/10 transition duration-300 border border-gray-800 hover:border-white">
+            <div class="group bg-brandGray rounded-xl overflow-hidden hover:shadow-2xl hover:shadow-white/10 transition border border-gray-800 hover:border-white cursor-pointer"
+                 onclick="openDetails('Wrapped', 350, 'allens_kitchen_ke_1756213376_3707708988714436252_76863337166.webp', 'Tortilla wraps, juicy chicken dipped in our in-house sauce, lettuce and a dash of onions.')">
                 <div class="h-64 overflow-hidden relative">
                     <img src="allens_kitchen_ke_1756213376_3707708988714436252_76863337166.webp" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
                     <div class="absolute top-2 right-2 bg-white text-black text-xs font-bold px-3 py-1 uppercase rounded-sm">Top Pick</div>
                 </div>
                 <div class="p-6">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-lg font-bold uppercase">Wrapped</h3>
-                        <span class="text-lg font-bold text-gray-200">Ksh 350</span>
+                    <div class="flex justify-between items-center mb-2">
+                        <div>
+                            <h3 class="text-lg font-bold uppercase">Wrapped</h3>
+                            <span class="text-lg font-bold text-gray-400">Ksh 350</span>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center hover:bg-gray-300 transition shadow-lg">
+                            <i class="fas fa-plus text-sm"></i>
+                        </div>
                     </div>
-                    <p class="text-gray-500 text-xs mb-4 line-clamp-2">Juicy chicken tortilla wrap with in-house sauce.</p>
-                    <button class="text-xs font-bold uppercase tracking-widest border-b border-white pb-1 group-hover:text-gray-300">Order Now</button>
+                    <p class="text-gray-500 text-xs line-clamp-2">Juicy chicken tortilla wrap with in-house sauce.</p>
                 </div>
             </div>
 
-            <div onclick="openModal('El Paso Sheriff', '600', 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', 'Texas Burger - Big patty, crispy bacon, sunny egg, onion jam, fresh crunch, all hugged by a toasty bun.')"
-                 class="group bg-brandGray rounded-xl overflow-hidden cursor-pointer hover:shadow-2xl hover:shadow-white/10 transition duration-300 border border-gray-800 hover:border-white">
-                <div class="h-64 overflow-hidden">
+            <div class="group bg-brandGray rounded-xl overflow-hidden hover:shadow-2xl hover:shadow-white/10 transition border border-gray-800 hover:border-white cursor-pointer"
+                 onclick="openDetails('El Paso Sheriff', 600, 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', 'Texas Burger - Big patty, crispy bacon, sunny egg, onion jam, fresh crunch.')">
+                <div class="h-64 overflow-hidden relative">
                     <img src="https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-700 grayscale group-hover:grayscale-0">
                 </div>
                 <div class="p-6">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-lg font-bold uppercase">El Paso Sheriff</h3>
-                        <span class="text-lg font-bold text-gray-200">Ksh 600</span>
+                    <div class="flex justify-between items-center mb-2">
+                        <div>
+                            <h3 class="text-lg font-bold uppercase">El Paso Sheriff</h3>
+                            <span class="text-lg font-bold text-gray-400">Ksh 600</span>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center hover:bg-gray-300 transition shadow-lg">
+                            <i class="fas fa-plus text-sm"></i>
+                        </div>
                     </div>
-                    <p class="text-gray-500 text-xs mb-4 line-clamp-2">Big patty, crispy bacon, sunny egg, onion jam.</p>
-                    <button class="text-xs font-bold uppercase tracking-widest border-b border-white pb-1 group-hover:text-gray-300">Order Now</button>
+                    <p class="text-gray-500 text-xs line-clamp-2">Big patty, crispy bacon, sunny egg, onion jam.</p>
                 </div>
             </div>
 
-            <div onclick="openModal('Kwata Bite', '400', 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', 'Big patty, onion jam, lettuce, cucumber, tomato with our in-house sauce.')"
-                 class="group bg-brandGray rounded-xl overflow-hidden cursor-pointer hover:shadow-2xl hover:shadow-white/10 transition duration-300 border border-gray-800 hover:border-white">
-                <div class="h-64 overflow-hidden">
+            <div class="group bg-brandGray rounded-xl overflow-hidden hover:shadow-2xl hover:shadow-white/10 transition border border-gray-800 hover:border-white cursor-pointer"
+                 onclick="openDetails('Kwata Bite', 400, 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', 'Big patty, onion jam, lettuce, cucumber, tomato with our in-house sauce.')">
+                <div class="h-64 overflow-hidden relative">
                     <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-700 grayscale group-hover:grayscale-0">
                 </div>
                 <div class="p-6">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-lg font-bold uppercase">Kwata Bite</h3>
-                        <span class="text-lg font-bold text-gray-200">Ksh 400</span>
+                    <div class="flex justify-between items-center mb-2">
+                        <div>
+                            <h3 class="text-lg font-bold uppercase">Kwata Bite</h3>
+                            <span class="text-lg font-bold text-gray-400">Ksh 400</span>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center hover:bg-gray-300 transition shadow-lg">
+                            <i class="fas fa-plus text-sm"></i>
+                        </div>
                     </div>
-                    <p class="text-gray-500 text-xs mb-4 line-clamp-2">Big patty, onion jam, lettuce, cucumber, tomato.</p>
-                    <button class="text-xs font-bold uppercase tracking-widest border-b border-white pb-1 group-hover:text-gray-300">Order Now</button>
+                    <p class="text-gray-500 text-xs line-clamp-2">Big patty, onion jam, lettuce, cucumber, tomato.</p>
                 </div>
             </div>
 
-            <div onclick="openModal('Kangawa Crunch', '450', 'https://images.unsplash.com/photo-1630384060421-a4323ceca0ad?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', 'Garlic-loaded fries topped with juicy mince, melty in-house cheese & a sprinkle of onions.')"
-                 class="group bg-brandGray rounded-xl overflow-hidden cursor-pointer hover:shadow-2xl hover:shadow-white/10 transition duration-300 border border-gray-800 hover:border-white">
-                <div class="h-64 overflow-hidden">
+            <div class="group bg-brandGray rounded-xl overflow-hidden hover:shadow-2xl hover:shadow-white/10 transition border border-gray-800 hover:border-white cursor-pointer"
+                 onclick="openDetails('Kangawa Crunch', 450, 'https://images.unsplash.com/photo-1630384060421-a4323ceca0ad?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', 'Garlic-loaded fries topped with juicy mince, melty in-house cheese & a sprinkle of onions.')">
+                <div class="h-64 overflow-hidden relative">
                     <img src="https://images.unsplash.com/photo-1630384060421-a4323ceca0ad?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-700 grayscale group-hover:grayscale-0">
                 </div>
                 <div class="p-6">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-lg font-bold uppercase">Kangawa Crunch</h3>
-                        <span class="text-lg font-bold text-gray-200">Ksh 450</span>
+                    <div class="flex justify-between items-center mb-2">
+                        <div>
+                            <h3 class="text-lg font-bold uppercase">Kangawa Crunch</h3>
+                            <span class="text-lg font-bold text-gray-400">Ksh 450</span>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center hover:bg-gray-300 transition shadow-lg">
+                            <i class="fas fa-plus text-sm"></i>
+                        </div>
                     </div>
-                    <p class="text-gray-500 text-xs mb-4 line-clamp-2">Garlic-loaded fries, juicy mince & cheese.</p>
-                    <button class="text-xs font-bold uppercase tracking-widest border-b border-white pb-1 group-hover:text-gray-300">Order Now</button>
+                    <p class="text-gray-500 text-xs line-clamp-2">Garlic-loaded fries, juicy mince & cheese.</p>
                 </div>
             </div>
 
-            <div onclick="openModal('Sandwich', '150', 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', 'Your choice of Egg sandwich or Brawn sandwich.')"
-                 class="group bg-brandGray rounded-xl overflow-hidden cursor-pointer hover:shadow-2xl hover:shadow-white/10 transition duration-300 border border-gray-800 hover:border-white">
-                <div class="h-64 overflow-hidden">
+            <div class="group bg-brandGray rounded-xl overflow-hidden hover:shadow-2xl hover:shadow-white/10 transition border border-gray-800 hover:border-white cursor-pointer"
+                 onclick="openDetails('Sandwich', 150, 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', 'Your choice of Egg sandwich or Brawn sandwich.')">
+                <div class="h-64 overflow-hidden relative">
                     <img src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-700 grayscale group-hover:grayscale-0">
                 </div>
                 <div class="p-6">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-lg font-bold uppercase">Sandwich</h3>
-                        <span class="text-lg font-bold text-gray-200">Ksh 150</span>
+                    <div class="flex justify-between items-center mb-2">
+                        <div>
+                            <h3 class="text-lg font-bold uppercase">Sandwich</h3>
+                            <span class="text-lg font-bold text-gray-400">Ksh 150</span>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center hover:bg-gray-300 transition shadow-lg">
+                            <i class="fas fa-plus text-sm"></i>
+                        </div>
                     </div>
-                    <p class="text-gray-500 text-xs mb-4 line-clamp-2">Choice of Egg or Brawn sandwich.</p>
-                    <button class="text-xs font-bold uppercase tracking-widest border-b border-white pb-1 group-hover:text-gray-300">Order Now</button>
+                    <p class="text-gray-500 text-xs line-clamp-2">Choice of Egg or Brawn sandwich.</p>
                 </div>
             </div>
 
@@ -239,223 +253,290 @@
     </section>
 
     <section class="py-24 bg-brandBlack text-white border-t border-b border-gray-900 relative overflow-hidden">
-        
-        <div class="absolute -right-16 -top-16 opacity-5 pointer-events-none">
-            <i class="fas fa-glass-martini-alt text-[20rem] rotate-12"></i>
-        </div>
-
+        <div class="absolute -right-16 -top-16 opacity-5 pointer-events-none"><i class="fas fa-glass-martini-alt text-[20rem] rotate-12"></i></div>
         <div class="max-w-5xl mx-auto px-4 relative z-10">
             <div class="text-center mb-16">
                 <span class="text-gray-500 uppercase tracking-widest text-xs font-bold">Thirst Quenchers</span>
                 <h2 class="text-4xl font-hand mt-2">Beverages</h2>
                 <div class="w-16 h-1 bg-white mx-auto mt-4 opacity-70"></div>
             </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                
                 <div class="bg-brandGray p-8 rounded-xl border border-gray-800 shadow-xl">
-                    <div class="flex items-center gap-3 mb-6">
-                        <i class="fas fa-mug-hot text-2xl text-gray-400"></i>
-                        <h3 class="text-2xl font-bold uppercase tracking-wide">Hot Drinks</h3>
-                    </div>
-                    
+                    <h3 class="text-2xl font-bold uppercase tracking-wide mb-6 flex items-center gap-3"><i class="fas fa-mug-hot text-gray-400"></i> Hot Drinks</h3>
                     <div class="space-y-4">
-                        <div class="flex justify-between items-end border-b border-gray-700 pb-2 group hover:border-white transition-colors cursor-default">
-                            <span class="text-gray-300 text-lg group-hover:text-white transition">Coffee</span>
-                            <span class="font-bold text-xl">Ksh 150</span>
+                        <div class="flex justify-between items-center border-b border-gray-700 pb-2">
+                            <span>Coffee</span> <button onclick="addToCart('Coffee', 150, 1)" class="text-xs bg-white text-black px-2 py-1 rounded font-bold hover:bg-gray-300">Add (150)</button>
                         </div>
-                        <div class="flex justify-between items-end border-b border-gray-700 pb-2 group hover:border-white transition-colors cursor-default">
-                            <span class="text-gray-300 text-lg group-hover:text-white transition">Masala Tea</span>
-                            <span class="font-bold text-xl">Ksh 100</span>
+                        <div class="flex justify-between items-center border-b border-gray-700 pb-2">
+                            <span>Masala Tea</span> <button onclick="addToCart('Masala Tea', 100, 1)" class="text-xs bg-white text-black px-2 py-1 rounded font-bold hover:bg-gray-300">Add (100)</button>
                         </div>
-                        <div class="flex justify-between items-end border-b border-gray-700 pb-2 group hover:border-white transition-colors cursor-default">
-                            <span class="text-gray-300 text-lg group-hover:text-white transition">Hibiscus Tea</span>
-                            <span class="font-bold text-xl">Ksh 120</span>
+                        <div class="flex justify-between items-center border-b border-gray-700 pb-2">
+                            <span>Hibiscus Tea</span> <button onclick="addToCart('Hibiscus Tea', 120, 1)" class="text-xs bg-white text-black px-2 py-1 rounded font-bold hover:bg-gray-300">Add (120)</button>
                         </div>
                     </div>
                 </div>
-
                 <div class="bg-brandGray p-8 rounded-xl border border-gray-800 shadow-xl">
-                    <div class="flex items-center gap-3 mb-6">
-                        <i class="fas fa-glass-whiskey text-2xl text-gray-400"></i>
-                        <h3 class="text-2xl font-bold uppercase tracking-wide">Cold Drinks</h3>
-                    </div>
-
+                    <h3 class="text-2xl font-bold uppercase tracking-wide mb-6 flex items-center gap-3"><i class="fas fa-glass-whiskey text-gray-400"></i> Cold Drinks</h3>
                     <div class="space-y-4">
-                        <div class="flex justify-between items-end border-b border-gray-700 pb-2 group hover:border-white transition-colors cursor-default">
-                            <span class="text-gray-300 text-lg group-hover:text-white transition">Sodas</span>
-                            <span class="font-bold text-xl">Ksh 50</span>
+                        <div class="flex justify-between items-center border-b border-gray-700 pb-2">
+                            <span>Sodas</span> <button onclick="addToCart('Soda', 50, 1)" class="text-xs bg-white text-black px-2 py-1 rounded font-bold hover:bg-gray-300">Add (50)</button>
                         </div>
-                        <div class="flex justify-between items-end border-b border-gray-700 pb-2 group hover:border-white transition-colors cursor-default">
-                            <span class="text-gray-300 text-lg group-hover:text-white transition">Mineral Water</span>
-                            <span class="font-bold text-xl">Ksh 50</span>
+                        <div class="flex justify-between items-center border-b border-gray-700 pb-2">
+                            <span>Water</span> <button onclick="addToCart('Water', 50, 1)" class="text-xs bg-white text-black px-2 py-1 rounded font-bold hover:bg-gray-300">Add (50)</button>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
 
     <section id="contact" class="py-20 bg-brandLight relative">
         <div class="max-w-7xl mx-auto px-4 relative z-10">
-            
             <div class="text-center mb-16">
                 <span class="text-gray-500 uppercase tracking-widest text-xs font-bold">Visit Us</span>
                 <h2 class="text-4xl font-bold uppercase tracking-widest mt-2 text-white">Find Your Way</h2>
                 <div class="w-20 h-1 bg-white mx-auto mt-4"></div>
             </div>
-
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
-                
                 <div class="bg-brandGray p-8 md:p-12 rounded-xl shadow-2xl border border-gray-800">
                     <h3 class="text-2xl font-bold uppercase tracking-widest text-white mb-2">Reserve a Table</h3>
                     <p class="text-gray-400 text-sm mb-8">Secure your spot for an unforgettable dining experience.</p>
-                    
                     <form class="space-y-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-gray-500 text-xs font-bold uppercase mb-2">Name</label>
-                                <input type="text" class="w-full bg-brandLight border border-gray-700 text-white px-4 py-4 rounded focus:border-white focus:outline-none transition" placeholder="John Doe">
-                            </div>
-                            <div>
-                                <label class="block text-gray-500 text-xs font-bold uppercase mb-2">Phone</label>
-                                <input type="tel" class="w-full bg-brandLight border border-gray-700 text-white px-4 py-4 rounded focus:border-white focus:outline-none transition" placeholder="+254 7...">
-                            </div>
+                            <div><label class="block text-gray-500 text-xs font-bold uppercase mb-2">Name</label><input type="text" class="w-full bg-brandLight border border-gray-700 text-white px-4 py-4 rounded focus:border-white focus:outline-none transition" placeholder="John Doe"></div>
+                            <div><label class="block text-gray-500 text-xs font-bold uppercase mb-2">Phone</label><input type="tel" class="w-full bg-brandLight border border-gray-700 text-white px-4 py-4 rounded focus:border-white focus:outline-none transition" placeholder="+254 7..."></div>
                         </div>
-                        <div>
-                            <label class="block text-gray-500 text-xs font-bold uppercase mb-2">Details</label>
-                            <textarea class="w-full bg-brandLight border border-gray-700 text-white px-4 py-4 rounded focus:border-white focus:outline-none transition h-32" placeholder="Date, Time, Guests..."></textarea>
-                        </div>
-                        <button type="button" class="w-full bg-white text-black font-bold uppercase tracking-widest py-4 rounded hover:bg-gray-300 transition duration-300">
-                            Confirm Booking
-                        </button>
+                        <div><label class="block text-gray-500 text-xs font-bold uppercase mb-2">Details</label><textarea class="w-full bg-brandLight border border-gray-700 text-white px-4 py-4 rounded focus:border-white focus:outline-none transition h-32" placeholder="Date, Time, Guests..."></textarea></div>
+                        <button type="button" class="w-full bg-white text-black font-bold uppercase tracking-widest py-4 rounded hover:bg-gray-300 transition duration-300">Confirm Booking</button>
                     </form>
                 </div>
-
                 <div class="h-full min-h-[400px] rounded-xl overflow-hidden shadow-2xl border border-gray-800 relative group">
-                    <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d255281.19036281522!2d36.70730729828522!3d-1.3031933719272915!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1172d84d49a7%3A0xf7cf0254b297924c!2sNairobi!5e0!3m2!1sen!2ske!4v1700000000000!5m2!1sen!2ske" 
-                        width="100%" 
-                        height="100%" 
-                        style="border:0;" 
-                        allowfullscreen="" 
-                        loading="lazy" 
-                        class="w-full h-full absolute inset-0"
-                        referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
-                    
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d255281.19036281522!2d36.70730729828522!3d-1.3031933719272915!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1172d84d49a7%3A0xf7cf0254b297924c!2sNairobi!5e0!3m2!1sen!2ske!4v1700000000000!5m2!1sen!2ske" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" class="w-full h-full absolute inset-0" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-none">
                         <p class="text-white font-bold text-lg"><i class="fas fa-map-marker-alt text-red-500 mr-2"></i> Nairobi, Kenya</p>
                     </div>
                 </div>
-
             </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="py-12 bg-black text-center border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-4">
+            <p class="text-gray-400 text-sm uppercase tracking-widest mb-6">Follow our journey @allens_kitchen_ke</p>
+            <a href="https://instagram.com/allens_kitchen_ke" target="_blank" class="inline-flex items-center gap-2 px-8 py-3 border border-gray-700 rounded-full text-white hover:border-white hover:bg-white hover:text-black transition duration-300">
+                <i class="fab fa-instagram text-xl"></i> 
+                <span class="font-bold text-sm uppercase tracking-widest">View Instagram Gallery</span>
+            </a>
         </div>
     </section>
 
     <footer class="bg-brandGray border-t border-gray-900 text-white py-12">
         <div class="max-w-7xl mx-auto px-4 flex flex-col items-center">
             <img src="image_5ecd63.png" alt="Allen's Kitchen" class="h-16 w-auto invert mb-6 opacity-80">
-            <h2 class="text-3xl font-hand mb-2">You Again??</h2>
-            <p class="text-gray-500 text-xs uppercase tracking-widest mb-8">Nairobi, Kenya</p>
-            <div class="flex gap-6 mb-8">
-                <a href="https://instagram.com/allens_kitchen_ke" target="_blank" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram text-xl"></i></a>
-                <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-tiktok text-xl"></i></a>
-            </div>
+            <p class="text-gray-500 text-xs uppercase tracking-widest mb-4">Nairobi, Kenya</p>
             <p class="text-xs text-gray-600">© 2025 Allen's Kitchen KE. All Rights Reserved.</p>
         </div>
     </footer>
 
-    <div id="productModal" class="modal fixed inset-0 z-[70] flex items-center justify-center bg-black/95 p-4 backdrop-blur-sm">
+    <div id="productModal" class="modal fixed inset-0 z-[110] flex items-center justify-center bg-black/95 p-4 backdrop-blur-sm">
         <div class="modal-content bg-brandGray w-full max-w-lg rounded-xl shadow-2xl relative border border-gray-800 overflow-hidden flex flex-col max-h-[90vh]">
             
-            <button onclick="closeModal()" class="absolute top-4 right-4 bg-black/50 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-white hover:text-black transition z-10 backdrop-blur-md">
-                <i class="fas fa-times"></i>
-            </button>
-
-            <div class="h-64 shrink-0 bg-black">
-                <img id="modalImg" src="" class="w-full h-full object-cover opacity-90">
-            </div>
+            <button onclick="closeDetails()" class="absolute top-4 right-4 bg-black/50 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-white hover:text-black transition z-10 backdrop-blur-md"><i class="fas fa-times"></i></button>
+            
+            <div class="h-64 shrink-0 bg-black"><img id="modalImg" src="" class="w-full h-full object-cover opacity-90"></div>
             
             <div class="p-8 overflow-y-auto">
-                <div class="flex justify-between items-baseline mb-4">
-                    <h3 id="modalTitle" class="text-2xl font-bold uppercase text-white">Dish Name</h3>
-                    <span id="modalPrice" class="text-xl font-bold text-gray-300">Ksh 0</span>
+                <div class="mb-4">
+                    <h3 id="modalTitle" class="text-2xl font-bold uppercase text-white mb-2">Dish Name</h3>
+                    
+                    <div class="flex items-center justify-between">
+                        <span id="modalPrice" class="text-xl font-bold text-gray-300">Ksh 0</span>
+                        
+                        <div class="flex items-center gap-3 bg-brandLight px-3 py-1 rounded-full border border-gray-700">
+                            <button onclick="adjustModalQty(-1)" class="w-6 h-6 bg-gray-600 rounded-full text-white text-xs font-bold hover:bg-gray-500 flex items-center justify-center transition">-</button>
+                            <span id="modalQtyDisplay" class="text-sm font-bold text-white w-4 text-center">1</span>
+                            <button onclick="adjustModalQty(1)" class="w-6 h-6 bg-white text-black rounded-full text-xs font-bold hover:bg-gray-200 flex items-center justify-center transition">+</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="w-12 h-1 bg-white mb-6"></div>
+
+                <div class="w-12 h-1 bg-white mb-4"></div>
                 <p id="modalDesc" class="text-gray-400 mb-8 text-sm leading-relaxed">Description goes here...</p>
                 
-                <a id="whatsappBtn" href="#" target="_blank" 
-                   class="block w-full bg-white text-black font-bold py-4 rounded-lg text-center uppercase tracking-widest hover:bg-gray-200 transition shadow-lg">
-                    <i class="fab fa-whatsapp mr-2"></i> Order via WhatsApp
-                </a>
+                <button id="modalAddBtn" class="block w-full bg-white text-black font-bold py-4 rounded-lg text-center uppercase tracking-widest hover:bg-gray-200 transition shadow-lg">
+                    Add to Order
+                </button>
             </div>
         </div>
     </div>
 
-    <a href="https://wa.me/254700000000" class="fixed bottom-6 right-6 z-50 group">
-        <div class="absolute inset-0 bg-green-500 rounded-full animate-ping opacity-50"></div>
-        <div class="relative bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition duration-300">
-            <i class="fab fa-whatsapp text-3xl"></i>
+    <div id="cartModal" class="modal fixed inset-0 z-[120] flex items-end sm:items-center justify-center bg-black/80 backdrop-blur-sm">
+        <div class="modal-content bg-white text-black w-full max-w-md sm:rounded-xl rounded-t-xl shadow-2xl relative flex flex-col max-h-[90vh]">
+            <div class="p-4 border-b flex justify-between items-center bg-gray-50 rounded-t-xl">
+                <h3 class="text-xl font-bold uppercase"><i class="fas fa-shopping-basket mr-2"></i> Your Order</h3>
+                <button onclick="closeCart()" class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-red-500 hover:text-white transition"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="cartItemsContainer" class="p-4 overflow-y-auto flex-1 space-y-3 min-h-[150px]">
+                <p class="text-gray-500 text-center italic mt-10">Your basket is empty.</p>
+            </div>
+            <div class="p-4 border-t bg-gray-50 rounded-b-xl">
+                <div class="flex justify-between items-center mb-4 text-xl font-bold">
+                    <span>Total:</span>
+                    <span id="cartTotal">Ksh 0</span>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-bold uppercase text-gray-500 mb-1">Your Name (Required)</label>
+                    <input type="text" id="customerName" class="w-full border p-3 rounded focus:outline-none focus:border-black bg-white" placeholder="e.g. John Doe">
+                </div>
+                <button onclick="checkout()" class="w-full bg-green-600 text-white font-bold py-4 rounded-lg uppercase tracking-widest hover:bg-green-700 transition shadow-lg flex items-center justify-center gap-2">
+                    <i class="fab fa-whatsapp text-xl"></i> Send Order
+                </button>
+            </div>
         </div>
-    </a>
+    </div>
+
+    <button onclick="openCart()" class="fixed bottom-6 right-6 z-50 bg-white text-black w-16 h-16 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition border-4 border-black group">
+        <i class="fas fa-shopping-basket text-2xl"></i>
+        <span id="float-cart-count" class="absolute -top-2 -right-2 bg-red-600 text-white w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center hidden">0</span>
+    </button>
 
     <script>
-        // --- Mobile Menu Logic (Fixed) ---
+        // --- 1. Mobile Menu ---
         const mobileMenu = document.getElementById('mobile-menu');
         const openBtn = document.getElementById('mobile-menu-open');
         const closeBtn = document.getElementById('mobile-menu-close');
         const links = document.querySelectorAll('.mobile-link');
 
-        function openMenu() {
-            mobileMenu.classList.remove('menu-hidden');
-            mobileMenu.classList.add('menu-visible');
+        function toggleMenu(show) {
+            if(show) { mobileMenu.classList.remove('menu-hidden'); mobileMenu.classList.add('menu-visible'); } 
+            else { mobileMenu.classList.remove('menu-visible'); mobileMenu.classList.add('menu-hidden'); }
+        }
+        openBtn.addEventListener('click', () => toggleMenu(true));
+        closeBtn.addEventListener('click', () => toggleMenu(false));
+        links.forEach(l => l.addEventListener('click', () => toggleMenu(false)));
+
+        // --- 2. Cart Logic ---
+        let cart = [];
+        const businessPhone = "254700000000"; 
+
+        function addToCart(name, price, qty) {
+            const existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.quantity += qty;
+            } else {
+                cart.push({ name: name, price: price, quantity: qty });
+            }
+            updateCartUI();
+            
+            const floatBtn = document.getElementById('float-cart-count');
+            floatBtn.parentElement.classList.add('pop-anim');
+            setTimeout(() => floatBtn.parentElement.classList.remove('pop-anim'), 300);
+            closeDetails();
         }
 
-        function closeMenu() {
-            mobileMenu.classList.remove('menu-visible');
-            mobileMenu.classList.add('menu-hidden');
+        function changeQty(index, change) {
+            if (cart[index]) {
+                cart[index].quantity += change;
+                if (cart[index].quantity <= 0) cart.splice(index, 1);
+                updateCartUI();
+            }
         }
 
-        openBtn.addEventListener('click', openMenu);
-        closeBtn.addEventListener('click', closeMenu);
-        links.forEach(link => { link.addEventListener('click', closeMenu); });
+        function updateCartUI() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
-        // --- Modal & WhatsApp Logic ---
-        const modal = document.getElementById('productModal');
-        const elements = {
+            ['nav-cart-count', 'mobile-cart-count', 'float-cart-count'].forEach(id => {
+                const el = document.getElementById(id);
+                el.innerText = totalItems;
+                el.classList.toggle('hidden', totalItems === 0);
+            });
+
+            const container = document.getElementById('cartItemsContainer');
+            document.getElementById('cartTotal').innerText = `Ksh ${totalPrice}`;
+
+            if (cart.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center italic mt-10">Your basket is empty.</p>';
+            } else {
+                container.innerHTML = cart.map((item, index) => `
+                    <div class="flex justify-between items-center bg-gray-50 p-3 rounded border">
+                        <div class="flex-1">
+                            <p class="font-bold text-sm">${item.name}</p>
+                            <p class="text-xs text-gray-500">Ksh ${item.price} x ${item.quantity}</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <button onclick="changeQty(${index}, -1)" class="w-6 h-6 bg-gray-200 rounded flex items-center justify-center font-bold hover:bg-gray-300">-</button>
+                            <span class="text-sm font-bold w-4 text-center">${item.quantity}</span>
+                            <button onclick="changeQty(${index}, 1)" class="w-6 h-6 bg-black text-white rounded flex items-center justify-center font-bold hover:bg-gray-800">+</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function openCart() { document.getElementById('cartModal').classList.add('active'); toggleMenu(false); }
+        function closeCart() { document.getElementById('cartModal').classList.remove('active'); }
+
+        function checkout() {
+            const name = document.getElementById('customerName').value.trim();
+            if (cart.length === 0) return alert("Your cart is empty!");
+            if (!name) return alert("Please enter your name.");
+
+            let totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            let message = `*NEW ORDER*\n*Customer:* ${name}\n\n*Order Details:*\n`;
+            cart.forEach(item => { message += `• ${item.quantity} x ${item.name} (Ksh ${item.price * item.quantity})\n`; });
+            message += `\n*Total: Ksh ${totalPrice}*`;
+            window.open(`https://wa.me/${businessPhone}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        // --- 3. Modal Quantity Logic ---
+        const detailsModal = document.getElementById('productModal');
+        let currentModalQty = 1;
+        let currentModalPrice = 0;
+        let currentModalName = "";
+
+        const modalElements = {
             img: document.getElementById('modalImg'),
             title: document.getElementById('modalTitle'),
             price: document.getElementById('modalPrice'),
             desc: document.getElementById('modalDesc'),
-            btn: document.getElementById('whatsappBtn')
+            btn: document.getElementById('modalAddBtn'),
+            qtyDisplay: document.getElementById('modalQtyDisplay')
         };
-        
-        // !!! REPLACE WITH YOUR NUMBER !!!
-        const businessPhone = "254700000000"; 
 
-        function openModal(title, price, image, desc) {
-            elements.img.src = image;
-            elements.title.innerText = title;
-            elements.price.innerText = "Ksh. " + price;
-            elements.desc.innerText = desc;
+        function openDetails(title, price, image, desc) {
+            currentModalQty = 1;
+            currentModalPrice = price;
+            currentModalName = title;
+
+            modalElements.img.src = image;
+            modalElements.title.innerText = title;
+            modalElements.price.innerText = "Ksh " + price;
+            modalElements.desc.innerText = desc;
             
-            const msg = `Hi, I'd like to order: *${title}* for *Ksh ${price}*.`;
-            elements.btn.href = `https://wa.me/${businessPhone}?text=${encodeURIComponent(msg)}`;
-
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden'; 
+            updateModalBtn();
+            detailsModal.classList.add('active');
         }
 
-        function closeModal() {
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto'; 
+        function adjustModalQty(change) {
+            if (currentModalQty + change >= 1) {
+                currentModalQty += change;
+                updateModalBtn();
+            }
         }
 
-        modal.addEventListener('click', (e) => { 
-            if(e.target === modal) closeModal(); 
-        });
+        function updateModalBtn() {
+            modalElements.qtyDisplay.innerText = currentModalQty;
+            modalElements.btn.innerText = `Add ${currentModalQty} to Order (Ksh ${currentModalQty * currentModalPrice})`;
+            modalElements.btn.onclick = function() { addToCart(currentModalName, currentModalPrice, currentModalQty); };
+        }
+
+        function closeDetails() { detailsModal.classList.remove('active'); }
+
+        window.onclick = function(event) {
+            if (event.target == detailsModal) closeDetails();
+            if (event.target == document.getElementById('cartModal')) closeCart();
+        }
     </script>
 </body>
 </html>
