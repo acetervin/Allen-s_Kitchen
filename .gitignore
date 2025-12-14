@@ -1,0 +1,36 @@
+# Node
+node_modules/
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Build output
+dist/
+out/
+.build/
+.cache/
+.parcel-cache/
+
+# Env files
+.env
+.env.*
+
+# Logs
+npm-debug.log*
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Coverage
+coverage/
+
+# Misc
+*.tgz
+*.local
