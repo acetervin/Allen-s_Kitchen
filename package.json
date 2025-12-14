@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "build:css": "tailwindcss -i ./src/styles.css -o ./dist/styles.css --minify",
-    "dev:css": "tailwindcss -i ./src/styles.css -o ./dist/styles.css --watch"
+    "dev:css": "tailwindcss -i ./src/styles.css -o ./dist/styles.css --watch",
+    "build": "npm run build:css && node ./scripts/prepare-dist.js"
   },
   "devDependencies": {
     "tailwindcss": "^3.4.0"
