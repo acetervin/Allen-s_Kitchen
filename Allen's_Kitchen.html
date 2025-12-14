@@ -19,6 +19,7 @@
                         brandBlack: '#000000',
                         brandGray: '#121212',
                         brandLight: '#1f1f1f',
+                        brandGold: '#D4AF37', // Added for subtle highlights
                     },
                     fontFamily: {
                         sans: ['Montserrat', 'sans-serif'],
@@ -33,18 +34,17 @@
         html { scroll-behavior: smooth; }
         body { background-color: #000000; color: #ffffff; }
         
-        /* --- ANIMATION RESTORED HERE --- */
+        /* Animations */
         .fade-in-up { animation: fadeInUp 1.2s ease-out; }
-        
         @keyframes fadeInUp { 
             from { opacity: 0; transform: translateY(40px); } 
             to { opacity: 1; transform: translateY(0); } 
         }
 
-        /* Mobile Menu Animation */
-        #mobile-menu { transition: transform 0.3s ease-in-out; }
-        .menu-hidden { transform: translateX(100%); }
-        .menu-visible { transform: translateX(0); }
+        /* Mobile Menu Animation - IMPROVED */
+        #mobile-menu { transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; }
+        .menu-hidden { opacity: 0; pointer-events: none; transform: scale(0.95); }
+        .menu-visible { opacity: 1; pointer-events: auto; transform: scale(1); }
 
         /* Modal Transitions */
         .modal { transition: opacity 0.2s ease-in-out; pointer-events: none; opacity: 0; }
@@ -77,24 +77,26 @@
                 </div>
             </div>
         </div>
-
-        <div id="mobile-menu" class="fixed inset-0 bg-black z-[60] flex flex-col items-center justify-center space-y-8 menu-hidden">
-            <button id="mobile-menu-close" class="absolute top-6 right-6 text-white w-12 h-12 border border-white rounded-full flex items-center justify-center hover:bg-white hover:text-black transition">
-                <i class="fas fa-times text-xl"></i>
-            </button>
-            
-            <a href="#experience" class="mobile-link text-3xl font-hand text-white hover:text-gray-300">Experience</a>
-            <a href="#menu" class="mobile-link text-3xl font-hand text-white hover:text-gray-300">Our Menu</a>
-            <a href="https://instagram.com/allens_kitchen_ke" target="_blank" class="mobile-link text-3xl font-hand text-white hover:text-gray-300">
-                <i class="fab fa-instagram mr-2"></i> Instagram
-            </a>
-            <a href="#contact" class="mobile-link text-lg bg-white text-black px-10 py-3 rounded font-bold uppercase tracking-widest">Book Now</a>
-        </div>
     </nav>
+
+    <div id="mobile-menu" class="fixed inset-0 bg-black z-[100] flex flex-col items-center justify-center space-y-8 menu-hidden">
+        <button id="mobile-menu-close" class="absolute top-6 right-6 text-white w-12 h-12 border border-white rounded-full flex items-center justify-center hover:bg-white hover:text-black transition">
+            <i class="fas fa-times text-xl"></i>
+        </button>
+        
+        <img src="image_5ecd63.png" alt="Allen's Kitchen" class="h-20 w-auto invert mb-4 opacity-80">
+        
+        <a href="#experience" class="mobile-link text-3xl font-hand text-white hover:text-gray-300">Experience</a>
+        <a href="#menu" class="mobile-link text-3xl font-hand text-white hover:text-gray-300">Our Menu</a>
+        <a href="https://instagram.com/allens_kitchen_ke" target="_blank" class="mobile-link text-3xl font-hand text-white hover:text-gray-300 flex items-center gap-2">
+            <i class="fab fa-instagram"></i> Instagram
+        </a>
+        <a href="#contact" class="mobile-link text-lg bg-white text-black px-10 py-3 rounded font-bold uppercase tracking-widest">Book Now</a>
+    </div>
 
     <header class="relative h-[85vh] flex items-center justify-center overflow-hidden">
         <div class="absolute inset-0 z-0">
-            <img src="https://images.pexels.com/photos/15082383/pexels-photo-15082383.jpeg?_gl=1*1v2afxr*_ga*Mjc4NzYxNDQ5LjE3NTg0MDU2MTA.*_ga_8JE65Q40S6*czE3NjU3MzE4MzYkbzYkZzEkdDE3NjU3MzE5MDkkajUzJGwwJGgw" class="w-full h-full object-cover opacity-50">
+            <img src="https://images.pexels.com/photos/109275/pexels-photo-109275.jpeg?_gl=1*ipx14g*_ga*Mjc4NzYxNDQ5LjE3NTg0MDU2MTA.*_ga_8JE65Q40S6*czE3NjU3MzE4MzYkbzYkZzEkdDE3NjU3MzM1MDEkajMxJGwwJGgw" class="w-full h-full object-cover opacity-50">
             <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/80"></div>
         </div>
 
@@ -236,56 +238,119 @@
         </div>
     </section>
 
-    <section class="py-16 bg-white text-black">
-        <div class="max-w-4xl mx-auto px-4">
-            <h3 class="text-3xl font-bold uppercase tracking-widest mb-10 text-center">Beverages</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
-                <div class="flex justify-between border-b border-gray-300 pb-2 items-end">
-                    <span class="text-lg">Coffee</span>
-                    <span class="font-bold text-xl">Ksh 150</span>
+    <section class="py-24 bg-brandBlack text-white border-t border-b border-gray-900 relative overflow-hidden">
+        
+        <div class="absolute -right-16 -top-16 opacity-5 pointer-events-none">
+            <i class="fas fa-glass-martini-alt text-[20rem] rotate-12"></i>
+        </div>
+
+        <div class="max-w-5xl mx-auto px-4 relative z-10">
+            <div class="text-center mb-16">
+                <span class="text-gray-500 uppercase tracking-widest text-xs font-bold">Thirst Quenchers</span>
+                <h2 class="text-4xl font-hand mt-2">Beverages</h2>
+                <div class="w-16 h-1 bg-white mx-auto mt-4 opacity-70"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <div class="bg-brandGray p-8 rounded-xl border border-gray-800 shadow-xl">
+                    <div class="flex items-center gap-3 mb-6">
+                        <i class="fas fa-mug-hot text-2xl text-gray-400"></i>
+                        <h3 class="text-2xl font-bold uppercase tracking-wide">Hot Drinks</h3>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-end border-b border-gray-700 pb-2 group hover:border-white transition-colors cursor-default">
+                            <span class="text-gray-300 text-lg group-hover:text-white transition">Coffee</span>
+                            <span class="font-bold text-xl">Ksh 150</span>
+                        </div>
+                        <div class="flex justify-between items-end border-b border-gray-700 pb-2 group hover:border-white transition-colors cursor-default">
+                            <span class="text-gray-300 text-lg group-hover:text-white transition">Masala Tea</span>
+                            <span class="font-bold text-xl">Ksh 100</span>
+                        </div>
+                        <div class="flex justify-between items-end border-b border-gray-700 pb-2 group hover:border-white transition-colors cursor-default">
+                            <span class="text-gray-300 text-lg group-hover:text-white transition">Hibiscus Tea</span>
+                            <span class="font-bold text-xl">Ksh 120</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="flex justify-between border-b border-gray-300 pb-2 items-end">
-                    <span class="text-lg">Masala Tea</span>
-                    <span class="font-bold text-xl">Ksh 100</span>
+
+                <div class="bg-brandGray p-8 rounded-xl border border-gray-800 shadow-xl">
+                    <div class="flex items-center gap-3 mb-6">
+                        <i class="fas fa-glass-whiskey text-2xl text-gray-400"></i>
+                        <h3 class="text-2xl font-bold uppercase tracking-wide">Cold Drinks</h3>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-end border-b border-gray-700 pb-2 group hover:border-white transition-colors cursor-default">
+                            <span class="text-gray-300 text-lg group-hover:text-white transition">Sodas</span>
+                            <span class="font-bold text-xl">Ksh 50</span>
+                        </div>
+                        <div class="flex justify-between items-end border-b border-gray-700 pb-2 group hover:border-white transition-colors cursor-default">
+                            <span class="text-gray-300 text-lg group-hover:text-white transition">Mineral Water</span>
+                            <span class="font-bold text-xl">Ksh 50</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="flex justify-between border-b border-gray-300 pb-2 items-end">
-                    <span class="text-lg">Hibiscus Tea</span>
-                    <span class="font-bold text-xl">Ksh 120</span>
-                </div>
-                <div class="flex justify-between border-b border-gray-300 pb-2 items-end">
-                    <span class="text-lg">Sodas / Water</span>
-                    <span class="font-bold text-xl">Ksh 50</span>
-                </div>
+
             </div>
         </div>
     </section>
 
     <section id="contact" class="py-20 bg-brandLight relative">
-        <div class="max-w-3xl mx-auto px-4 relative z-10">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold uppercase tracking-widest text-white">Reserve a Table</h2>
-                <p class="text-gray-400 mt-2 text-sm">Join us for an unforgettable meal.</p>
-            </div>
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
             
-            <form class="space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-gray-400 text-xs font-bold uppercase mb-2">Name</label>
-                        <input type="text" class="w-full bg-brandGray border border-gray-700 text-white px-4 py-4 rounded focus:border-white focus:outline-none transition" placeholder="Enter your name">
-                    </div>
-                    <div>
-                        <label class="block text-gray-400 text-xs font-bold uppercase mb-2">Phone</label>
-                        <input type="tel" class="w-full bg-brandGray border border-gray-700 text-white px-4 py-4 rounded focus:border-white focus:outline-none transition" placeholder="+254 7...">
+            <div class="text-center mb-16">
+                <span class="text-gray-500 uppercase tracking-widest text-xs font-bold">Visit Us</span>
+                <h2 class="text-4xl font-bold uppercase tracking-widest mt-2 text-white">Find Your Way</h2>
+                <div class="w-20 h-1 bg-white mx-auto mt-4"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
+                
+                <div class="bg-brandGray p-8 md:p-12 rounded-xl shadow-2xl border border-gray-800">
+                    <h3 class="text-2xl font-bold uppercase tracking-widest text-white mb-2">Reserve a Table</h3>
+                    <p class="text-gray-400 text-sm mb-8">Secure your spot for an unforgettable dining experience.</p>
+                    
+                    <form class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-gray-500 text-xs font-bold uppercase mb-2">Name</label>
+                                <input type="text" class="w-full bg-brandLight border border-gray-700 text-white px-4 py-4 rounded focus:border-white focus:outline-none transition" placeholder="John Doe">
+                            </div>
+                            <div>
+                                <label class="block text-gray-500 text-xs font-bold uppercase mb-2">Phone</label>
+                                <input type="tel" class="w-full bg-brandLight border border-gray-700 text-white px-4 py-4 rounded focus:border-white focus:outline-none transition" placeholder="+254 7...">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-gray-500 text-xs font-bold uppercase mb-2">Details</label>
+                            <textarea class="w-full bg-brandLight border border-gray-700 text-white px-4 py-4 rounded focus:border-white focus:outline-none transition h-32" placeholder="Date, Time, Guests..."></textarea>
+                        </div>
+                        <button type="button" class="w-full bg-white text-black font-bold uppercase tracking-widest py-4 rounded hover:bg-gray-300 transition duration-300">
+                            Confirm Booking
+                        </button>
+                    </form>
+                </div>
+
+                <div class="h-full min-h-[400px] rounded-xl overflow-hidden shadow-2xl border border-gray-800 relative group">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d255281.19036281522!2d36.70730729828522!3d-1.3031933719272915!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1172d84d49a7%3A0xf7cf0254b297924c!2sNairobi!5e0!3m2!1sen!2ske!4v1700000000000!5m2!1sen!2ske" 
+                        width="100%" 
+                        height="100%" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        class="w-full h-full absolute inset-0"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                    
+                    <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-none">
+                        <p class="text-white font-bold text-lg"><i class="fas fa-map-marker-alt text-red-500 mr-2"></i> Nairobi, Kenya</p>
                     </div>
                 </div>
-                <div>
-                    <label class="block text-gray-400 text-xs font-bold uppercase mb-2">Message</label>
-                    <textarea class="w-full bg-brandGray border border-gray-700 text-white px-4 py-4 rounded focus:border-white focus:outline-none transition h-32" placeholder="Date, Time, Number of Guests..."></textarea>
-                </div>
-                <button type="button" class="w-full bg-white text-black font-bold uppercase tracking-widest py-4 rounded hover:bg-gray-200 transition duration-300">
-                    Send Request
-                </button>
-            </form>
+
+            </div>
         </div>
     </section>
 
@@ -298,7 +363,7 @@
                 <a href="https://instagram.com/allens_kitchen_ke" target="_blank" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram text-xl"></i></a>
                 <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-tiktok text-xl"></i></a>
             </div>
-            <p class="text-xs text-gray-600">&copy; 2025 Allen's Kitchen KE. All Rights Reserved.</p>
+            <p class="text-xs text-gray-600">© 2025 Allen's Kitchen KE. All Rights Reserved.</p>
         </div>
     </footer>
 
@@ -337,7 +402,7 @@
     </a>
 
     <script>
-        // --- Mobile Menu Logic (Refined) ---
+        // --- Mobile Menu Logic (Fixed) ---
         const mobileMenu = document.getElementById('mobile-menu');
         const openBtn = document.getElementById('mobile-menu-open');
         const closeBtn = document.getElementById('mobile-menu-close');
@@ -355,10 +420,7 @@
 
         openBtn.addEventListener('click', openMenu);
         closeBtn.addEventListener('click', closeMenu);
-        
-        links.forEach(link => {
-            link.addEventListener('click', closeMenu);
-        });
+        links.forEach(link => { link.addEventListener('click', closeMenu); });
 
         // --- Modal & WhatsApp Logic ---
         const modal = document.getElementById('productModal');
