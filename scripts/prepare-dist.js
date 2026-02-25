@@ -26,6 +26,14 @@ async function main() {
     console.error('Failed to copy index.html:', err.message);
   }
 
+  // Copy script.js
+  try {
+    await copyFile(path.join(root, 'script.js'), path.join(dist, 'script.js'));
+    console.log('Copied script.js → dist/script.js');
+  } catch (err) {
+    console.error('Failed to copy script.js:', err.message);
+  }
+
   // Copy top-level image assets
   const files = await fs.promises.readdir(root);
   const exts = ['.png', '.jpg', '.jpeg', '.webp', '.svg', '.gif', '.ico'];
