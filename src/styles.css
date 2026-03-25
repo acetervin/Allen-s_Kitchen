@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+@import 'sign.css';
+
+
 /* Custom project styles moved from inline <style> */
 html { scroll-behavior: smooth; overflow-x: hidden; }
 

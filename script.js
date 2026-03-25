@@ -250,6 +250,25 @@ function updateOpenStatus() {
 updateOpenStatus();
 setInterval(updateOpenStatus, 60000);
 
+// Hanging sign
+function updateSign() {
+  const now = new Date();
+  const hour = now.getHours();
+  const sign = document.getElementById("shop-sign");
+  if (!sign) return;
+
+  if (hour >= 10 && hour < 22) {
+    sign.textContent = "OPEN";
+    sign.className = "sign bg-brandBlack text-green-400 border-green-400 font-bold uppercase px-3 py-1.5 text-xs tracking-wide rounded border-2 shadow-2xl origin-top animate-swing";
+  } else {
+    sign.textContent = "CLOSED";
+    sign.className = "sign bg-brandBlack text-red-400 border-red-400 font-bold uppercase px-3 py-1.5 text-xs tracking-wide rounded border-2 shadow-2xl origin-top animate-swing";
+  }
+}
+
+updateSign();
+setInterval(updateSign, 60000);
+
 // --- 5. Newsletter Signup ---
 function handleNewsletterSignup(event) {
     event.preventDefault();

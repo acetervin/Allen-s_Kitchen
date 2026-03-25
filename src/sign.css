@@ -1,0 +1,20 @@
+.sign-container {
+  position: fixed;
+  top: 80px;
+  right: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 60;
+}
+
+.string {
+  width: 2px;
+  height: 40px;
+  background: #aaa;
+}
+
+.sign {
+  transform-origin: top center;
+}
+
