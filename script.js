@@ -156,7 +156,7 @@ function checkout() {
     cart.forEach(item => { 
         message += ` ${item.quantity} x ${item.name} (Ksh ${item.price * item.quantity})\n`; 
     });
-    message += `\n *Total Amount: Ksh ${totalPrice}*\n\n_Ordered via Allen's Kitchen Website_`;
+    message += `\n *Total Amount: Ksh ${totalPrice}*\n\n_Ordered via Fusions Choma joint Website_`;
     
     window.open(`https://wa.me/${businessPhone}?text=${encodeURIComponent(message)}`, '_blank');
 }
