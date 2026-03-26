@@ -28,8 +28,329 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <link rel="stylesheet" href="dist/styles.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@400;1,400&family=Bebas+Neue&family=Barlow:wght@300;400;500&display=swap');
+
+        .ak-loader-root {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            color: #fff;
+            font-family: 'Barlow', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            overflow: hidden;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .ak-loader-root.ak-exit {
+            opacity: 0;
+            transform: scale(1.04);
+            pointer-events: none;
+        }
+        .ak-noise {
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+            pointer-events: none;
+            opacity: 0.35;
+            z-index: 1;
+        }
+        .ak-corner {
+            position: absolute;
+            width: 36px;
+            height: 36px;
+            opacity: 0;
+            animation: ak-fade-in 1s ease forwards 0.5s;
+            z-index: 3;
+        }
+        .ak-corner-tl { top: 24px; left: 24px; border-top: 1px solid rgba(255,255,255,0.25); border-left: 1px solid rgba(255,255,255,0.25); }
+        .ak-corner-tr { top: 24px; right: 24px; border-top: 1px solid rgba(255,255,255,0.25); border-right: 1px solid rgba(255,255,255,0.25); }
+        .ak-corner-bl { bottom: 24px; left: 24px; border-bottom: 1px solid rgba(255,255,255,0.25); border-left: 1px solid rgba(255,255,255,0.25); }
+        .ak-corner-br { bottom: 24px; right: 24px; border-bottom: 1px solid rgba(255,255,255,0.25); border-right: 1px solid rgba(255,255,255,0.25); }
+        .ak-wrap {
+            position: relative;
+            text-align: center;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .ak-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 340px;
+            height: 340px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            animation: ak-pulse 3s ease-in-out infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .ak-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .ak-ring-1 {
+            width: 190px;
+            height: 190px;
+            border: 1px solid rgba(255,255,255,0.07);
+            border-top-color: rgba(255,255,255,0.55);
+            transform: translate(-50%, -50%);
+            animation: ak-spin 4s linear infinite;
+            z-index: 1;
+        }
+        .ak-ring-2 {
+            width: 232px;
+            height: 232px;
+            border: 1px solid rgba(255,255,255,0.04);
+            border-bottom-color: rgba(255,255,255,0.2);
+            transform: translate(-50%, -50%);
+            animation: ak-spin 7s linear infinite reverse;
+            z-index: 1;
+        }
+        .ak-content {
+            position: relative;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .ak-est {
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 6px;
+            color: rgba(255,255,255,0.38);
+            text-transform: uppercase;
+            opacity: 0;
+            animation: ak-fade-up 0.8s ease forwards 0.3s;
+            margin-bottom: 8px;
+        }
+        .ak-title {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: clamp(38px, 6vw, 52px);
+            font-weight: 400;
+            color: #fff;
+            line-height: 1;
+            opacity: 0;
+            animation: ak-fade-up 0.9s ease forwards 0.5s;
+            margin-bottom: 4px;
+            letter-spacing: -0.5px;
+        }
+        .ak-tagline {
+            font-size: 11px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            color: rgba(255,255,255,0.28);
+            text-transform: uppercase;
+            opacity: 0;
+            animation: ak-fade-up 0.9s ease forwards 0.7s;
+            margin-top: 6px;
+            margin-bottom: 48px;
+        }
+        .ak-divider {
+            width: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+            margin: 0 auto 40px;
+            animation: ak-expand 1s ease forwards 0.9s;
+            position: relative;
+            z-index: 5;
+        }
+        .ak-bar-wrap {
+            position: relative;
+            z-index: 5;
+            opacity: 0;
+            animation: ak-fade-up 0.8s ease forwards 1.1s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+        .ak-bar-track {
+            width: 180px;
+            height: 1px;
+            background: rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .ak-bar-fill {
+            height: 100%;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(255,255,255,0.5);
+            transition: width 0.1s linear;
+        }
+        .ak-bar-meta {
+            display: flex;
+            align-items: center;
+            width: 180px;
+            justify-content: space-between;
+        }
+        .ak-loading-text {
+            font-size: 9px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.25);
+            font-weight: 400;
+        }
+        .ak-percent {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 11px;
+            letter-spacing: 3px;
+            color: rgba(255,255,255,0.5);
+            min-width: 36px;
+            text-align: right;
+        }
+        .ak-nairobi {
+            position: absolute;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 9px;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.12);
+            font-weight: 300;
+            opacity: 0;
+            animation: ak-fade-in 1s ease forwards 1.2s;
+            white-space: nowrap;
+            z-index: 5;
+        }
+        @keyframes ak-fade-up {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes ak-fade-in {
+            from { opacity: 0; } to { opacity: 1; }
+        }
+        @keyframes ak-pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            50%       { transform: translate(-50%, -50%) scale(1.12); opacity: 1; }
+        }
+        @keyframes ak-spin {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to   { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        @keyframes ak-expand {
+            from { width: 0; opacity: 0; }
+            to   { width: 120px; opacity: 1; }
+        }
+    </style>
 </head>
 <body class="font-sans antialiased bg-black text-white selection:bg-white selection:text-black">
+
+    <!-- Brand Loader -->
+    <div id="brand-loader" class="ak-loader-root">
+        <div class="ak-noise"></div>
+        <div class="ak-corner ak-corner-tl"></div>
+        <div class="ak-corner ak-corner-tr"></div>
+        <div class="ak-corner ak-corner-bl"></div>
+        <div class="ak-corner ak-corner-br"></div>
+        <div class="ak-wrap">
+            <div class="ak-glow"></div>
+            <div class="ak-ring ak-ring-1"></div>
+            <div class="ak-ring ak-ring-2"></div>
+            <div class="ak-content">
+                <div class="ak-est">Est. Nairobi</div>
+                <div class="ak-title">Fusions Choma joint</div>
+                <div class="ak-tagline">"You Again??"</div>
+            </div>
+            <div class="ak-divider"></div>
+            <div class="ak-bar-wrap">
+                <div class="ak-bar-track">
+                    <div id="loader-fill" class="ak-bar-fill" style="width: 0%"></div>
+                </div>
+                <div class="ak-bar-meta">
+                    <span class="ak-loading-text">Preparing</span>
+                    <span id="loader-percent" class="ak-percent">0%</span>
+                </div>
+            </div>
+        </div>
+        <div class="ak-nairobi">Nairobi · Kenya</div>
+    </div>
+
+    <script>
+        (function() {
+            const PROGRESS_KEYFRAMES = [
+                [0, 0],
+                [1300, 15],
+                [2100, 35],
+                [2700, 65],
+                [3300, 88],
+                [4100, 99], 
+            ];
+
+            let isPageLoaded = false;
+            window.addEventListener('load', () => {
+                isPageLoaded = true;
+            });
+
+            function lerp(a, b, t) {
+                return a + (b - a) * t;
+            }
+
+            const loader = document.getElementById('brand-loader');
+            const fill = document.getElementById('loader-fill');
+            const percentText = document.getElementById('loader-percent');
+            let startTs = null;
+
+            function animate(ts) {
+                if (!startTs) startTs = ts;
+                const elapsed = ts - startTs;
+
+                let seg = PROGRESS_KEYFRAMES.length - 2;
+                for (let i = 0; i < PROGRESS_KEYFRAMES.length - 1; i++) {
+                    if (elapsed < PROGRESS_KEYFRAMES[i + 1][0]) {
+                        seg = i;
+                        break;
+                    }
+                }
+
+                const [fromTime, fromVal] = PROGRESS_KEYFRAMES[seg];
+                const [toTime, toVal] = PROGRESS_KEYFRAMES[seg + 1];
+                const t = Math.max(0, Math.min(1, (elapsed - fromTime) / (toTime - fromTime)));
+                let percent = Math.round(lerp(fromVal, toVal, t));
+
+                if (isPageLoaded && elapsed > 1000) { 
+                    percent = 100;
+                    fill.style.width = "100%";
+                    percentText.innerText = "100%";
+                    
+                    setTimeout(() => {
+                        loader.classList.add('ak-exit');
+                        setTimeout(() => {
+                            loader.remove();
+                        }, 800);
+                    }, 400);
+                    return;
+                }
+
+                fill.style.width = percent + "%";
+                percentText.innerText = percent + "%";
+
+                if (elapsed < PROGRESS_KEYFRAMES[PROGRESS_KEYFRAMES.length - 1][0] || !isPageLoaded) {
+                    requestAnimationFrame(animate);
+                } else {
+                    fill.style.width = "100%";
+                    percentText.innerText = "100%";
+                    setTimeout(() => {
+                        loader.classList.add('ak-exit');
+                        setTimeout(() => {
+                            loader.remove();
+                        }, 800);
+                    }, 400);
+                }
+            }
+            requestAnimationFrame(animate);
+        })();
+    </script>
 
     <nav class="fixed w-full z-50 bg-black/90 backdrop-blur-md border-b border-gray-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
