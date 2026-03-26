@@ -242,6 +242,13 @@
             from { width: 0; opacity: 0; }
             to   { width: 120px; opacity: 1; }
         }
+        
+        .ak-no-scroll {
+            overflow: hidden !important;
+            height: 100vh !important;
+            width: 100vw !important;
+            position: fixed !important;
+        }
     </style>
 </head>
 <body class="font-sans antialiased bg-black text-white selection:bg-white selection:text-black">
@@ -301,6 +308,10 @@
             const percentText = document.getElementById('loader-percent');
             let startTs = null;
 
+            // Lock scroll on both html and body
+            document.documentElement.classList.add('ak-no-scroll');
+            document.body.classList.add('ak-no-scroll');
+
             function animate(ts) {
                 if (!startTs) startTs = ts;
                 const elapsed = ts - startTs;
@@ -325,6 +336,9 @@
                     
                     setTimeout(() => {
                         loader.classList.add('ak-exit');
+                        // Unlock scroll
+                        document.documentElement.classList.remove('ak-no-scroll');
+                        document.body.classList.remove('ak-no-scroll');
                         setTimeout(() => {
                             loader.remove();
                         }, 800);
@@ -342,6 +356,9 @@
                     percentText.innerText = "100%";
                     setTimeout(() => {
                         loader.classList.add('ak-exit');
+                        // Unlock scroll
+                        document.documentElement.classList.remove('ak-no-scroll');
+                        document.body.classList.remove('ak-no-scroll');
                         setTimeout(() => {
                             loader.remove();
                         }, 800);
