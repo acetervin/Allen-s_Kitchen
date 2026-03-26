@@ -20,6 +20,7 @@ async function main() {
   try {
     let html = await fs.promises.readFile(indexPath, 'utf8');
     html = html.replace(/href="dist\/styles.css"/g, 'href="styles.css"');
+    // Ensure src/ paths are preserved for src/components files
     await fs.promises.writeFile(path.join(dist, 'index.html'), html, 'utf8');
     console.log('Copied index.html → dist/index.html');
   } catch (err) {
@@ -32,6 +33,20 @@ async function main() {
     console.log('Copied script.js → dist/script.js');
   } catch (err) {
     console.error('Failed to copy script.js:', err.message);
+  }
+
+  // Copy src/components directory (loading screen files)
+  const componentsDir = path.join(root, 'src', 'components');
+  try {
+    const files = await fs.promises.readdir(componentsDir);
+    for (const file of files) {
+      const src = path.join(componentsDir, file);
+      const dest = path.join(dist, 'src', 'components', file);
+      await copyFile(src, dest);
+      console.log(`Copied ${file} → dist/src/components/${file}`);
+    }
+  } catch (err) {
+    console.error('Failed to copy components:', err.message);
   }
 
   // Copy top-level image assets
